@@ -3,14 +3,20 @@ name = "BillParser"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "zhouxin", email = "zhou.xin@mail.ustc.edu.cn" }]
-dependencies = ["fastapi>=0.119.0", "uvicorn[standard]>=0.37.0"]
+dependencies = [
+    "fastapi>=0.119.0",
+    "uvicorn[standard]>=0.37.0",
+    "dynaconf[yaml]>=3.2.12",
+    "pytest>=8.4.2",
+    "httpx>=0.28.1",
+]
 requires-python = "==3.12.*"
 readme = "README.md"
 license = { text = "Apache License 2.0" }
 
 
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.ruff]
 target-version = "py312"
