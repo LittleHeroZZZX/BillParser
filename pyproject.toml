@@ -27,3 +27,8 @@ ignore = []
 
 [tool.ruff.format]
 quote-style = "double"
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=7.0.0",
+]
