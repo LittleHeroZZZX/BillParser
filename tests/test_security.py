@@ -1,7 +1,8 @@
-from billparser.security import get_api_key
 from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 from pytest import MonkeyPatch
+
+from billparser.security import get_api_key
 
 app = FastAPI()
 
