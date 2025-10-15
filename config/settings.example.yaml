@@ -1,0 +1,6 @@
+api_keys:
+  - "your_api_key_here"
+
+server:
+  host: "0.0.0.0"
+  port: 8878
