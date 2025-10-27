@@ -32,13 +32,13 @@ class PpParserBase(BaseParser):
             "file": data_b64,
             "fileType": 1,  # 1 for image, 0 for PDF
         }
+        timeout_config = httpx.Timeout(10, write=30)
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=timeout_config) as client:
             response: httpx.Response = await client.post(
                 url=self.url,
                 json=pay_load,
                 headers=headers,
-                timeout=10,
             )
             response.raise_for_status()
             return self._post_process_ocr_response(response.json())
