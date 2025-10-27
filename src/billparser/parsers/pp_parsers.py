@@ -11,7 +11,7 @@ from .base import BaseParser
 logger = getLogger(__name__)
 
 
-class PpParserBase(BaseParser):
+class PpParserBase(BaseParser[RawImage, RawText]):
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
         name = self.name.replace("-", "_")
