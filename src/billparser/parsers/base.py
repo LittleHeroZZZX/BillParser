@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
-from src.billparser.models import Bill, RawImage, RawText
+from ..models import Bill, RawImage, RawText
 
 T_Input = TypeVar("T_Input", bound=RawImage | RawText)
 T_Output = TypeVar("T_Output", bound=Bill | RawText)

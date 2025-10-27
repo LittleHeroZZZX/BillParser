@@ -46,7 +46,7 @@ class Bill(BaseModel):
 
     @model_validator(mode="after")
     def check_fee_logic(self) -> Self:
-        if self.fee is not None and self.fee < self.amount:
+        if self.fee is not None and (self.fee < 0 or self.fee > self.amount):
             raise ValueError("手续费 fee 不能为负数且不能大于交易金额 amount")
         return self
 

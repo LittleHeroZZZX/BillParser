@@ -21,7 +21,8 @@ async def test_PPOCRV5Parser():  # noqa: N802
         file_bytes = f.read()
 
     ocr_result = await PPOCRV5Parser().parse(RawImage(file_bytes))
-    ocr_text = ocr_result
 
     for expected_string in expected_string_list:
-        assert expected_string in ocr_text
+        assert expected_string in ocr_result, (
+            f"Expected '{expected_string}' in OCR result, but got '{ocr_result}'"
+        )
