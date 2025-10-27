@@ -43,8 +43,8 @@ jobs:
 
       - name: Run tests and generate coverage report
         env:
-          BILLPARSER_PARSERS__PP_OCRv5__TOKEN: ${{ secrets.OCR_TOKEN }}
-          BILLPARSER_PARSERS__PP_OCRv5__URL: ${{ secrets.OCR_URL }}
+          BILLPARSER_PARSERS__PP_OCRv5__TOKEN: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__TOKEN }}
+          BILLPARSER_PARSERS__PP_OCRv5__URL: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__URL }}
         run: >
           pdm run pytest --cov=billparser --cov-report=xml
 
