@@ -4,3 +4,11 @@ api_keys:
 server:
   host: "0.0.0.0"
   port: 8878
+
+parsers:
+  PP-OCRv5: # https://ai.baidu.com/ai-doc/AISTUDIO/Kmfl2ycs0
+    url: your_ocr_service_url_here
+    token: your_token_here
+  PaddleOCR-VL: # https://ai.baidu.com/ai-doc/AISTUDIO/2mh4okm66
+    url: your_ocr_service_url_here
+    token: your_token_here
