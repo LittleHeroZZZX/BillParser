@@ -14,8 +14,10 @@ logger = getLogger(__name__)
 class PpParserBase(BaseParser[RawImage, RawText]):
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
-        name = self.name.replace("-", "_")
-        assert name in settings["parsers"]
+        name = self.name
+        if name not in settings["parsers"]:
+            name = self.name.replace("-", "_")
+        assert name in settings["parsers"], f"Parser settings for {self.name} not found"
         self.url = settings["parsers"][name]["url"]
         self.token = settings["parsers"][name]["token"]
 
