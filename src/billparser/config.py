@@ -9,7 +9,7 @@ to_load_yaml_files = [
     str(file) for file in all_yaml_files if not file.name.endswith(".example.yaml")
 ]
 if not to_load_yaml_files:
-    to_load_yaml_files = [str(CONFIG_ROOT / "settings.yaml")]
+    to_load_yaml_files = [str(CONFIG_ROOT / "settings.example.yaml")]
 
 settings = Dynaconf(
     envvar_prefix="BILLPARSER",
