@@ -31,4 +31,6 @@ quote-style = "double"
 [dependency-groups]
 dev = [
     "pytest-cov>=7.0.0",
+    "pytest-asyncio>=1.2.0",
+    "pre-commit>=4.3.0",
 ]
