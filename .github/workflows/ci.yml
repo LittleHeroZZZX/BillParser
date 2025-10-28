@@ -10,6 +10,8 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    environment: TestEnv
+
     strategy:
       matrix:
         python-version: ["3.12"]
@@ -26,18 +28,13 @@ jobs:
       - name: Install PDM
         run: pip install pdm
 
-      - name: Configure PDM and cache dependencies
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Install project dependencies
+        run: pdm install --dev
 
       - name: Install the latest version of ruff
         uses: astral-sh/ruff-action@v3
         with:
           version: "latest"
-
-      - name: Install project dependencies
-        run: pdm install
 
       - name: Lint and format check with Ruff
         run: |
@@ -45,6 +42,11 @@ jobs:
           pdm run ruff check .
 
       - name: Run tests and generate coverage report
+        env:
+          BILLPARSER_PARSERS__PP_OCRv5__TOKEN: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__TOKEN }}
+          BILLPARSER_PARSERS__PP_OCRv5__URL: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__URL }}
+          BILLPARSER_PARSERS__DEEPSEEK_CHAT__API_KEY: ${{ secrets.BILLPARSER_PARSERS__DEEPSEEK_CHAT__API_KEY }}
+          BILLPARSER_PARSERS__DEEPSEEK_CHAT__BASE_URL: ${{ secrets.BILLPARSER_PARSERS__DEEPSEEK_CHAT__BASE_URL }}
         run: >
           pdm run pytest --cov=billparser --cov-report=xml
 
@@ -52,3 +54,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml

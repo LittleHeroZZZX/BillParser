@@ -1,0 +1,7 @@
+parsers:
+  PP_OCRv5:
+    url:
+    token:
+  deepseek_chat: # https://api-docs.deepseek.com/
+    base_url:
+    api_key:
