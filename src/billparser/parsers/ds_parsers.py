@@ -17,14 +17,16 @@ class DeepSeekParser(BaseParser[RawText, Bill]):
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
         assert (
-            self.name.upper() in settings["parsers"] or self.name in settings["parsers"]
+            self.name in settings["parsers"] or self.name.upper() in settings["parsers"]
         ), f"Parser settings for {self.name} not found"
-        assert "api_key" in settings["parsers"][self.name], (
-            f"API key for {self.name} not found in settings"
-        )
-        assert "base_url" in settings["parsers"][self.name], (
-            f"Base URL for {self.name} not found in settings"
-        )
+        assert (
+            "api_key" in settings["parsers"][self.name]
+            or "API_KEY" in settings["parsers"][self.name]
+        ), f"API key for {self.name} not found in settings"
+        assert (
+            "base_url" in settings["parsers"][self.name]
+            or "BASE_URL" in settings["parsers"][self.name]
+        ), f"Base URL for {self.name} not found in settings"
         assert (
             settings["parsers"][self.name]["api_key"] != "your_deepseek_api_key_here"
         ), f"Please set a valid API key for {self.name} in settings.yaml"

@@ -4,11 +4,3 @@ api_keys:
 server:
   host: "0.0.0.0"
   port: 8878
-
-parsers:
-  PP_OCRv5: # https://ai.baidu.com/ai-doc/AISTUDIO/Kmfl2ycs0
-    url: your_ocr_service_url_here
-    token: your_token_here
-  deepseek_chat: # https://api-docs.deepseek.com/
-    base_url: https://api.deepseek.com
-    api_key: your_deepseek_api_key_here

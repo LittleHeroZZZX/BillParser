@@ -14,3 +14,8 @@ settings = Dynaconf(
     ignore_unknown_envvars=False,
     merge_enabled=True,
 )
+
+
+def _set_settings_for_tests(new_settings: Dynaconf) -> None:
+    global settings
+    settings.update(new_settings)

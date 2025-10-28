@@ -4,12 +4,3 @@ api_keys:
 server:
   host: "0.0.0.0"
   port: 8878
-
-
-parsers:
-  PP_OCRv5:
-    url:
-    token:
-  deepseek_chat: # https://api-docs.deepseek.com/
-    base_url:
-    api_key:
