@@ -1,0 +1,58 @@
+categories:
+  - transaction_type: 支出
+    items:
+      - l1_name: 三餐
+        description: 所有与饮食相关的支出
+        items:
+          - l2_name: 零食
+            description: 零食、饮料等非正餐支出
+          - l2_name: 外卖
+            description: 通过外卖平台订购的餐食，如美团、饿了么、京东、宅急送，但不包括水果、食材
+          - l2_name: 水果
+            description: 各类水果的购买支出
+          - l2_name: 食堂
+            description: 在公司食堂的餐饮支出，其中通过百度钱包和百度简单支付的订单归属此类，在早餐时间段（7:00-10:00）内的肯德基订单归属此类
+          - l2_name: 出去吃饭
+            description: 在外餐厅、快餐店等地的用餐支出，一般单笔金额大于 80 元
+          - l2_name: 食材
+            description: 购买各类食材的支出，包括外卖购买的原始食材、调料等
+      - l1_name: 衣服
+        description: 衣服、鞋帽等相关支出
+      - l1_name: 交通
+        description: 各类交通出行相关支出
+        items: # 火车、飞机、公交、地铁、打车、共享单车
+          - l2_name: 火车
+            description: 各类火车、高铁出行相关支出
+          - l2_name: 飞机
+            description: 各类飞机出行相关支出
+          - l2_name: 公交
+            description: 各类公交车出行相关支出
+          - l2_name: 地铁
+            description: 各类地铁出行相关支出
+          - l2_name: 打车
+            description: 各类出租车、网约车出行相关支出
+          - l2_name: 共享单车
+            description: 各类共享单车出行相关支出
+      - l1_name: 话费网费
+        description: 手机话费、宽带网费等相关支出
+      - l1_name: 学习
+        description: 各类学习、培训相关支出
+      - l1_name: 日用品
+        description: 各类日常生活用品相关支出
+      - l1_name: 医疗
+        description: 各类医疗、看病相关支出
+      - l1_name: 娱乐
+        description: 各类娱乐、休闲相关支出
+        items:
+          - l2_name: 电影
+            description: 各类电影票、观影相关支出
+          - l2_name: 游戏
+            description: 各类游戏充值、购买相关支出
+      - l1_name: 请客送礼
+        description: 各类请客吃饭、送礼相关支出
+      - l1_name: 电器数码
+        description: 各类电器、数码产品相关支出
+      - l1_name: 水电煤
+        description: 各类水费、电费、燃气费等相关支出
+      - l1_name: 会员
+        description: 各类会员增值服务相关支出，如视频会员

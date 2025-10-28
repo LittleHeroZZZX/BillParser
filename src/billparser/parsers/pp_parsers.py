@@ -14,12 +14,11 @@ logger = getLogger(__name__)
 class PpParserBase(BaseParser[RawImage, RawText]):
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
-        name = self.name
-        if name not in settings["parsers"]:
-            name = self.name.replace("-", "_")
-        assert name in settings["parsers"], f"Parser settings for {self.name} not found"
-        self.url = settings["parsers"][name]["url"]
-        self.token = settings["parsers"][name]["token"]
+        assert self.name in settings["parsers"], (
+            f"Parser settings for {self.name} not found"
+        )
+        self.url = settings["parsers"][self.name]["url"]
+        self.token = settings["parsers"][self.name]["token"]
 
     async def parse(self, input_data: RawImage) -> RawText:
         logger.debug(f"Parsing input data with {self.name}")
@@ -51,7 +50,7 @@ class PpParserBase(BaseParser[RawImage, RawText]):
 
 
 class PPOCRV5Parser(PpParserBase):
-    name = "PP-OCRv5"
+    name = "PP_OCRv5"
 
     def _post_process_ocr_response(self, response_json: dict) -> RawText:
         datatext_list = response_json["result"]["ocrResults"][0]["prunedResult"][

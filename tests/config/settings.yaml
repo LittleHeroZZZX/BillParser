@@ -7,9 +7,9 @@ server:
 
 
 parsers:
-  PP-OCRv5:
+  PP_OCRv5:
     url:
     token:
-  deepseek-chat: # https://api-docs.deepseek.com/
+  deepseek_chat: # https://api-docs.deepseek.com/
     base_url:
     api_key:

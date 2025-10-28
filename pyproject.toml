@@ -9,6 +9,7 @@ dependencies = [
     "dynaconf[yaml]>=3.2.12",
     "pytest>=8.4.2",
     "httpx>=0.28.1",
+    "openai>=2.6.1",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

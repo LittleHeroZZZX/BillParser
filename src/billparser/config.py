@@ -8,7 +8,6 @@ all_yaml_files = CONFIG_ROOT.glob("**/*.yaml")
 to_load_yaml_files = [
     str(file) for file in all_yaml_files if not file.name.endswith(".example.yaml")
 ]
-
 settings = Dynaconf(
     envvar_prefix="BILLPARSER",
     settings_files=to_load_yaml_files,
