@@ -1,0 +1,15 @@
+api_keys:
+  - "your_api_key_here"
+
+server:
+  host: "0.0.0.0"
+  port: 8878
+
+
+parsers:
+  PP-OCRv5:
+    url:
+    token:
+  deepseek-chat: # https://api-docs.deepseek.com/
+    base_url:
+    api_key:
