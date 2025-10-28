@@ -16,9 +16,9 @@ class DeepSeekParser(BaseParser[RawText, Bill]):
 
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
-        assert self.name in settings["parsers"], (
-            f"Parser settings for {self.name} not found"
-        )
+        assert (
+            self.name.upper() in settings["parsers"] or self.name in settings["parsers"]
+        ), f"Parser settings for {self.name} not found"
         assert "api_key" in settings["parsers"][self.name], (
             f"API key for {self.name} not found in settings"
         )

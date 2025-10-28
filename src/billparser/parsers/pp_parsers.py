@@ -14,9 +14,9 @@ logger = getLogger(__name__)
 class PpParserBase(BaseParser[RawImage, RawText]):
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
-        assert self.name in settings["parsers"], (
-            f"Parser settings for {self.name} not found"
-        )
+        assert (
+            self.name in settings["parsers"] or self.name.upper() in settings["parsers"]
+        ), f"Parser settings for {self.name} not found"
         self.url = settings["parsers"][self.name]["url"]
         self.token = settings["parsers"][self.name]["token"]
 
@@ -33,7 +33,7 @@ class PpParserBase(BaseParser[RawImage, RawText]):
             "file": data_b64,
             "fileType": 1,  # 1 for image, 0 for PDF
         }
-        timeout_config = httpx.Timeout(10, write=30)
+        timeout_config = httpx.Timeout(timeout=10, write=30)
 
         async with httpx.AsyncClient(timeout=timeout_config) as client:
             response: httpx.Response = await client.post(
