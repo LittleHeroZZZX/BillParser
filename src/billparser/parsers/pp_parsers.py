@@ -29,7 +29,7 @@ class PpParserBase(BaseParser[RawImage, RawText]):
             "Content-Type": "application/json",
         }
 
-        pay_load = {
+        payload = {
             "file": data_b64,
             "fileType": 1,  # 1 for image, 0 for PDF
         }
@@ -38,7 +38,7 @@ class PpParserBase(BaseParser[RawImage, RawText]):
         async with httpx.AsyncClient(timeout=timeout_config) as client:
             response: httpx.Response = await client.post(
                 url=self.url,
-                json=pay_load,
+                json=payload,
                 headers=headers,
             )
             response.raise_for_status()

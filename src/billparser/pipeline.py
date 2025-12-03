@@ -51,9 +51,10 @@ class PipelineManager:
                 step_names = config.get("steps", [])
                 steps = []
                 for step_name in step_names:
-                    parser = self.parser_manager.get_parser(step_name)
-                    if parser is None:
-                        raise ValueError(f"Parser '{step_name}' not found for pipeline '{pipeline_name}'")
+                    try:
+                        parser = self.parser_manager.get_parser(step_name)
+                    except KeyError as e:
+                        raise ValueError(f"Parser '{step_name}' not found for pipeline '{pipeline_name}'") from e
                     steps.append(parser)
                 pipeline = Pipeline(name=pipeline_name, steps=steps)
                 self.pipelines[pipeline_name] = pipeline

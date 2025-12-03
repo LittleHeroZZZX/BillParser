@@ -95,7 +95,7 @@ class ParserManager:
         """
         name = name.lower()
         if name not in self._registry:
-            self._load_and_instantiate_parsers()
+            self._registry = self._load_and_instantiate_parsers()
         if name not in self._registry:
             raise KeyError(f"Parser '{name}' not found in registry. Available parsers: {list(self._registry.keys())}")
         return self._registry[name]

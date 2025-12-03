@@ -29,7 +29,7 @@ class CategoryHelper:
                 logger.warning("Transaction type missing in category settings")
                 continue
             if transaction_type_str not in TransactionType:
-                logger.warning(f"Unknown transaction type '{transaction_type_str}'in category settings")
+                logger.warning(f"Unknown transaction type '{transaction_type_str}' in category settings")
                 continue
             transaction_type_enum = TransactionType(transaction_type_str)
             self.categories[transaction_type_enum] = {}

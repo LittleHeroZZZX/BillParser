@@ -15,8 +15,8 @@ expected_string_list = [
 
 
 @pytest.mark.asyncio
-async def test_PPOCRV5Parser():  # noqa: N802
-    """Test PPOCRV5Parser with a sample image."""
+async def test_QianfanOcrParser():  # noqa: N802
+    """Test QianfanOcrParser with a sample image."""
     with open(test_image_path, "rb") as f:
         file_bytes = f.read()
 

@@ -25,9 +25,7 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
         self.access_token = None
         self.access_token_last_updated: datetime.datetime | None = None
 
-        self._update_access_token(force=True)
-
-    def _update_access_token(self, force=True) -> None:
+    async def _update_access_token(self, force=True) -> None:
         if self.access_token_last_updated is not None:
             elapsed = datetime.datetime.now() - self.access_token_last_updated
             if elapsed.total_seconds() < 3600 * 24 and not force:
@@ -35,21 +33,22 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
         url = "https://aip.baidubce.com/oauth/2.0/token"
         params = {"grant_type": "client_credentials", "client_id": self.api_key, "client_secret": self.secret_key}
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
-        response = httpx.post(url, data=params, headers=headers, timeout=1)
-        response.raise_for_status()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, data=params, headers=headers, timeout=1)
+            response.raise_for_status()
         data = response.json()
         self.access_token = data["access_token"]
         self.access_token_last_updated = datetime.datetime.now()
 
     async def parse(self, input_data: RawImage) -> RawText:
         logger.debug(f"Parsing input data with {self.name}")
-        self._update_access_token(force=False)
+        await self._update_access_token(force=False)
         data_b64: str = base64.b64encode(input_data).decode("ascii")
 
         headers = {"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"}
         params = {"access_token": self.access_token}
 
-        pay_load = {
+        payload = {
             "image": data_b64,
             "paragraph": "true",
         }
@@ -58,7 +57,7 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
         async with httpx.AsyncClient(timeout=timeout_config) as client:
             response: httpx.Response = await client.post(
                 url=self.url,
-                data=pay_load,
+                data=payload,
                 headers=headers,
                 params=params,
             )
