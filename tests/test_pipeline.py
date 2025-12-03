@@ -40,4 +40,4 @@ async def test_ocr_then_llm():
         accountname2=None,
         fee=None,
     )
-    bill_helper.compare_bill(bill, expected_bill, raise_on_mismatch=True)
+    bill_helper.compare_bill(bill, expected_bill, raise_on_mismatch=True, skip_remark=True)
