@@ -41,11 +41,12 @@ jobs:
           pdm run ruff format --check .
           pdm run ruff check .
 
-      - name: Run tests and generate coverage report
+      - name: Inject secrets into env
         uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
           include: BILLPARSER_PARSERS*
+      - name: Run tests with coverage
         run: >
           pdm run pytest --cov=billparser --cov-report=xml
 
