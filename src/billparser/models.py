@@ -46,9 +46,7 @@ class Bill(BaseModel):
     catename: CategoryItem = Field(description="账单分类")
     remark: str = Field(description="交易备注")
     accountname: AssetItem = Field(description="账单所属账户名称或者转出账户名称")
-    accountname2: AssetItem | None = Field(
-        default=None, description="转账时的转入账户名称"
-    )
+    accountname2: AssetItem | None = Field(default=None, description="转账时的转入账户名称")
     fee: float | None = Field(
         default=None,
         description="手续费",
@@ -83,3 +81,7 @@ class Bill(BaseModel):
         if category.l2_name:
             return category.l2_name
         return category.l1_name
+
+
+type ParserInput = RawImage | RawText
+type ParserOutput = Bill | RawText

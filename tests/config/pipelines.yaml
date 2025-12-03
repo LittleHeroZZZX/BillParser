@@ -1,0 +1,5 @@
+pipelines:
+  ocr_then_llm: # pipeline name
+    steps: # list of steps in the pipeline, names of the steps correspond to parsels.yaml
+      - "Qianfan_OCR"
+      - "deepseek_chat"

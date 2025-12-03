@@ -2,10 +2,10 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, get_args, get_origin
 
-from ..models import Bill, RawImage, RawText
+from ..models import ParserInput, ParserOutput
 
-T_Input = TypeVar("T_Input", bound=RawImage | RawText)
-T_Output = TypeVar("T_Output", bound=Bill | RawText)
+T_Input = TypeVar("T_Input", bound=ParserInput)
+T_Output = TypeVar("T_Output", bound=ParserOutput)
 
 
 class BaseParser[T_Input, T_Output](ABC):
@@ -19,17 +19,19 @@ class BaseParser[T_Input, T_Output](ABC):
     def __init__(self):
         pass
 
-    def _get_parser_generic_args(self) -> tuple[type, type]:
+    @classmethod
+    def _get_parser_generic_args(cls) -> tuple[type, type]:
         """
         Retrieve the concrete types used for T_Input and T_Output.
         """
-        if hasattr(self, "_cached_base_args"):
-            return self._cached_base_args
-        for base in self.__class__.__mro__:
+        if hasattr(cls, "_cached_base_args"):
+            return cls._cached_base_args
+        orig_bases = getattr(cls, "__orig_bases__", ())
+        for base in orig_bases:
             origin = get_origin(base)
             if origin is BaseParser:
                 args = get_args(base)
-                self._cached_base_args = args
+                cls._cached_base_args = args
                 return args
         raise TypeError("Could not determine generic arguments for BaseParser")
 
@@ -55,3 +57,8 @@ class BaseParser[T_Input, T_Output](ABC):
         Parse the input data and return the output data.
         """
         pass
+
+    def __repr__(self) -> str:
+        return (
+            f"<Parser name={self.name} input_type={self.input_type.__name__} output_type={self.output_type.__name__}>"
+        )

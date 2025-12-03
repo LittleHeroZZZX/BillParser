@@ -5,3 +5,6 @@ parsers:
   deepseek_chat: # https://api-docs.deepseek.com/
     base_url: https://api.deepseek.com
     api_key: your_deepseek_api_key_here
+  qianfan_ocr: # https://cloud.baidu.com/doc/OCR/s/zk3h7xz52
+    api_key:
+    secret_key:

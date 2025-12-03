@@ -29,10 +29,7 @@ class CategoryHelper:
                 logger.warning("Transaction type missing in category settings")
                 continue
             if transaction_type_str not in TransactionType:
-                logger.warning(
-                    f"Unknown transaction type '{transaction_type_str}'"
-                    "in category settings"
-                )
+                logger.warning(f"Unknown transaction type '{transaction_type_str}'in category settings")
                 continue
             transaction_type_enum = TransactionType(transaction_type_str)
             self.categories[transaction_type_enum] = {}
@@ -66,24 +63,17 @@ class CategoryHelper:
                         self.categories[transaction_type_enum][l2_name] = category_item
         self._initialized = True
 
-    def get_category(
-        self, transaction_type: TransactionType, name: str
-    ) -> CategoryItem:
+    def get_category(self, transaction_type: TransactionType, name: str) -> CategoryItem:
         """
         Get category item by transaction type and name.
 
         """
         self._initialize()
         if transaction_type not in self.categories:
-            logger.warning(
-                f"Transaction type '{transaction_type}' not found in categories"
-            )
+            logger.warning(f"Transaction type '{transaction_type}' not found in categories")
             return self.get_default_category()
         if name not in self.categories[transaction_type]:
-            logger.warning(
-                f"Category name '{name}' not found "
-                f"under transaction type '{transaction_type}'"
-            )
+            logger.warning(f"Category name '{name}' not found under transaction type '{transaction_type}'")
             return self.get_default_category()
         return self.categories[transaction_type].get(name, self.get_default_category())
 
@@ -183,9 +173,7 @@ class AssetHelper:
         prompt_lines = []
         for asset in self.assets.values():
             line = (
-                f"- 账户名称: {asset.account_name}, "
-                f"账户描述: {asset.account_desc}, "
-                f"强制匹配规则: {asset.match_rules}"
+                f"- 账户名称: {asset.account_name}, 账户描述: {asset.account_desc}, 强制匹配规则: {asset.match_rules}"
             )
             prompt_lines.append(line)
         return "\n".join(prompt_lines)
@@ -262,7 +250,7 @@ Here are the detailed rules:
 
 再次强调，你的回复必须仅包含一个符合上述 Pydantic 模式的 JSON 对象，且不能包含任何其他文本。
 如果没有识别到有效信息，请将amount字段设为-1，并将其他字段设为null或合适的空值。
-"""  # noqa: E501, RUF001
+"""  # noqa: RUF001
 
         return prompt.strip()
 
@@ -304,45 +292,24 @@ class BillHelper:
             bool: True if bills are equal (considering skipped fields), False otherwise.
         """
         try:
-            if (
-                not skip_transaction_type
-                and bill1.transaction_type != bill2.transaction_type
-            ):
+            if not skip_transaction_type and bill1.transaction_type != bill2.transaction_type:
                 raise ValueError(
-                    "transaction_type mismatch, bill1: "
-                    f"{bill1.transaction_type}, bill2: {bill2.transaction_type}"
+                    f"transaction_type mismatch, bill1: {bill1.transaction_type}, bill2: {bill2.transaction_type}"
                 )
             if not skip_amount and bill1.amount != bill2.amount:
-                raise ValueError(
-                    f"amount mismatch, bill1: {bill1.amount}, bill2: {bill2.amount}"
-                )
+                raise ValueError(f"amount mismatch, bill1: {bill1.amount}, bill2: {bill2.amount}")
             if not skip_time and bill1.time != bill2.time:
-                raise ValueError(
-                    f"time mismatch, bill1: {bill1.time}, bill2: {bill2.time}"
-                )
+                raise ValueError(f"time mismatch, bill1: {bill1.time}, bill2: {bill2.time}")
             if not skip_catename and bill1.catename != bill2.catename:
-                raise ValueError(
-                    f"catename mismatch, bill1: {bill1.catename}, "
-                    f"bill2: {bill2.catename}"
-                )
+                raise ValueError(f"catename mismatch, bill1: {bill1.catename}, bill2: {bill2.catename}")
             if not skip_remark and bill1.remark != bill2.remark:
-                raise ValueError(
-                    f"remark mismatch, bill1: {bill1.remark}, bill2: {bill2.remark}"
-                )
+                raise ValueError(f"remark mismatch, bill1: {bill1.remark}, bill2: {bill2.remark}")
             if not skip_accountname and bill1.accountname != bill2.accountname:
-                raise ValueError(
-                    f"accountname mismatch, bill1: {bill1.accountname}, "
-                    f"bill2: {bill2.accountname}"
-                )
+                raise ValueError(f"accountname mismatch, bill1: {bill1.accountname}, bill2: {bill2.accountname}")
             if not skip_accountname2 and bill1.accountname2 != bill2.accountname2:
-                raise ValueError(
-                    f"accountname2 mismatch, bill1: {bill1.accountname2}, "
-                    f"bill2: {bill2.accountname2}"
-                )
+                raise ValueError(f"accountname2 mismatch, bill1: {bill1.accountname2}, bill2: {bill2.accountname2}")
             if not skip_fee and bill1.fee != bill2.fee:
-                raise ValueError(
-                    f"fee mismatch, bill1: {bill1.fee}, bill2: {bill2.fee}"
-                )
+                raise ValueError(f"fee mismatch, bill1: {bill1.fee}, bill2: {bill2.fee}")
             return True
         except ValueError as e:
             if raise_on_mismatch:
