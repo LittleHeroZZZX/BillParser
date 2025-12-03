@@ -10,6 +10,7 @@ dependencies = [
     "pytest>=8.4.2",
     "httpx>=0.28.1",
     "openai>=2.6.1",
+    "requests>=2.32.5",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
@@ -21,6 +22,8 @@ distribution = true
 
 [tool.ruff]
 target-version = "py312"
+line-length = 120
+
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "C4", "RUF", "N"]
@@ -34,4 +37,5 @@ dev = [
     "pytest-cov>=7.0.0",
     "pytest-asyncio>=1.2.0",
     "pre-commit>=4.3.0",
+    "ruff>=0.14.7",
 ]

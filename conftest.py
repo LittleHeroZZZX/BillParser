@@ -3,8 +3,6 @@ from pathlib import Path
 import pytest
 from dynaconf import Dynaconf
 
-from billparser.config import _set_settings_for_tests
-
 TEST_CONFIG_ROOT = Path(__file__).parent / "tests" / "config"
 # skip settings.yaml to avoid cover model secrets env
 all_yaml_files = [str(file) for file in TEST_CONFIG_ROOT.glob("**/*.yaml")]
@@ -19,4 +17,6 @@ def override_dynaconf_settings():
         ignore_unknown_envvars=False,
         merge_enabled=True,
     )
+    from billparser.config import _set_settings_for_tests
+
     _set_settings_for_tests(settings)
