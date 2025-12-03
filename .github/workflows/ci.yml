@@ -41,12 +41,14 @@ jobs:
           pdm run ruff format --check .
           pdm run ruff check .
 
-      - name: Inject secrets into env
-        uses: oNaiPs/secrets-to-env-action@v1
-        with:
-          secrets: ${{ toJSON(secrets) }}
-          include: BILLPARSER_PARSERS*,CODECOV_TOKEN
       - name: Run tests with coverage
+        env:
+          BILLPARSER_PARSERS__PP_OCRv5__TOKEN: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__TOKEN }}
+          BILLPARSER_PARSERS__PP_OCRv5__URL: ${{ secrets.BILLPARSER_PARSERS__PP_OCRV5__URL }}
+          BILLPARSER_PARSERS__DEEPSEEK_CHAT__API_KEY: ${{ secrets.BILLPARSER_PARSERS__DEEPSEEK_CHAT__API_KEY }}
+          BILLPARSER_PARSERS__DEEPSEEK_CHAT__BASE_URL: ${{ secrets.BILLPARSER_PARSERS__DEEPSEEK_CHAT__BASE_URL }}
+          BILLPARSER_PARSERS__QIANFAN_OCR__API_KEY: ${{ secrets.BILLPARSER_PARSERS__QIANFAN_OCR__API_KEY }}
+          BILLPARSER_PARSERS__QIANFAN_OCR__SECRET_KEY: ${{ secrets.BILLPARSER_PARSERS__QIANFAN_OCR__SECRET_KEY }}
         run: >
           pdm run pytest --cov=billparser --cov-report=xml
 
