@@ -11,6 +11,7 @@ settings = Dynaconf(
     settings_files=to_load_yaml_files,
     ignore_unknown_envvars=False,
     merge_enabled=True,
+    load_dotenv=True,
 )
 
 
