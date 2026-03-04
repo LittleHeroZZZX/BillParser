@@ -5,4 +5,11 @@ services:
       - "${PORT:-8878}:8878"
     volumes:
       - ./config:/app/config
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - HTTP_PROXY=http://host.docker.internal:7890
+      - HTTPS_PROXY=http://host.docker.internal:7890
+      - http_proxy=http://host.docker.internal:7890
+      - https_proxy=http://host.docker.internal:7890
     restart: unless-stopped
