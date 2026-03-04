@@ -16,12 +16,13 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
 
     def __init__(self):
         logger.debug(f"Initializing {self.name}")
-        assert self.name in settings["parsers"] or self.name.upper() in settings["parsers"], (
-            f"Parser settings for {self.name} not found"
-        )
         self.url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic"
-        self.api_key = settings["parsers"][self.name]["api_key"]
-        self.secret_key = settings["parsers"][self.name]["secret_key"]
+        try:
+            self.api_key = settings["parsers"][self.name]["api_key"]
+            self.secret_key = settings["parsers"][self.name]["secret_key"]
+        except KeyError:
+            logger.error(f"API key or secret key for {self.name} not found in settings")
+            raise
         self.access_token = None
         self.access_token_last_updated: datetime.datetime | None = None
 
@@ -31,7 +32,11 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
             if elapsed.total_seconds() < 3600 * 24 and not force:
                 return
         url = "https://aip.baidubce.com/oauth/2.0/token"
-        params = {"grant_type": "client_credentials", "client_id": self.api_key, "client_secret": self.secret_key}
+        params = {
+            "grant_type": "client_credentials",
+            "client_id": self.api_key,
+            "client_secret": self.secret_key,
+        }
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         async with httpx.AsyncClient() as client:
             response = await client.post(url, data=params, headers=headers, timeout=1)
@@ -45,7 +50,10 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
         await self._update_access_token(force=False)
         data_b64: str = base64.b64encode(input_data).decode("ascii")
 
-        headers = {"Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+        }
         params = {"access_token": self.access_token}
 
         payload = {

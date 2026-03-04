@@ -43,8 +43,8 @@ class Bill(BaseModel):
     )
     amount: float = Field(description="交易金额")
     time: datetime = Field(description="交易时间，格式如'2023-10-01 12:34:56'")  # noqa: RUF001
-    catename: CategoryItem = Field(description="账单分类")
-    remark: str = Field(description="交易备注")
+    catename: CategoryItem | None = Field(default=None, description="账单分类")
+    remark: str | None = Field(default=None, description="交易备注")
     accountname: AssetItem = Field(description="账单所属账户名称或者转出账户名称")
     accountname2: AssetItem | None = Field(default=None, description="转账时的转入账户名称")
     fee: float | None = Field(
@@ -77,10 +77,18 @@ class Bill(BaseModel):
         return self
 
     @field_serializer("catename")
-    def serialize_catename(self, category: CategoryItem) -> str:
+    def serialize_catename(self, category: CategoryItem | None) -> str | None:
+        if category is None:
+            return None
         if category.l2_name:
             return category.l2_name
         return category.l1_name
+
+    @field_serializer("accountname", "accountname2")
+    def serialize_accountname(self, account: AssetItem | None) -> str | None:
+        if account is None:
+            return None
+        return account.account_name
 
 
 type ParserInput = RawImage | RawText

@@ -45,22 +45,28 @@ class DeepSeekParser(BaseParser[RawText, Bill]):
                 raise ValueError("Received empty response from DeepSeek API")
             raw_data = json.loads(response_text)
             transaction_type_str = raw_data.get("transaction_type")
-            catename_str = raw_data.get("catename")
-            accountname_str = raw_data.get("accountname")
-            assert transaction_type_str in TransactionType, (
-                f"Unknown transaction type '{transaction_type_str}' in DeepSeek response"
-            )
-            assert catename_str in category_helper.categories[transaction_type_str], (
-                f"Unknown category name '{catename_str}' for "
-                f"transaction type '{transaction_type_str}' in DeepSeek response"
-            )
-            assert accountname_str in asset_helper.assets, (
-                f"Unknown account name '{accountname_str}' for "
-                f"transaction type '{transaction_type_str}' in DeepSeek response"
-            )
-            raw_data["transaction_type"] = TransactionType(transaction_type_str)
-            raw_data["catename"] = category_helper.get_category(raw_data["transaction_type"], catename_str)
-            raw_data["accountname"] = asset_helper.get_asset(accountname_str)
+            if transaction_type_str != "信用卡还款":
+                catename_str = raw_data.get("catename")
+                accountname_str = raw_data.get("accountname")
+                assert transaction_type_str in TransactionType, (
+                    f"Unknown transaction type '{transaction_type_str}' in DeepSeek response"
+                )
+                assert catename_str in category_helper.categories[transaction_type_str], (
+                    f"Unknown category name '{catename_str}' for "
+                    f"transaction type '{transaction_type_str}' in DeepSeek response"
+                )
+                assert accountname_str in asset_helper.assets, (
+                    f"Unknown account name '{accountname_str}' for "
+                    f"transaction type '{transaction_type_str}' in DeepSeek response"
+                )
+                raw_data["transaction_type"] = TransactionType(transaction_type_str)
+                raw_data["catename"] = category_helper.get_category(raw_data["transaction_type"], catename_str)
+                raw_data["accountname"] = asset_helper.get_asset(accountname_str)
+            else:
+                raw_data["transaction_type"] = TransactionType.CREDIT_CARD_REPAYMENT
+                raw_data["accountname"] = asset_helper.get_asset(raw_data["accountname"])
+                raw_data["accountname2"] = asset_helper.get_asset(raw_data["accountname2"])
+                raw_data["catename"] = None
             return Bill.model_validate(raw_data)
         except Exception as e:
             logger.error(f"Error during DeepSeek parsing: {e}")

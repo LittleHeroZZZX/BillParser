@@ -4,7 +4,10 @@ from fastapi.security import APIKeyHeader
 from .config import settings
 
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
-VALID_API_KEYS = set(settings.get("api_keys", []))
+api_keys = settings.get("API_KEYS", [])
+if isinstance(api_keys, str):
+    api_keys = [api_keys]
+VALID_API_KEYS = set(api_keys)
 
 
 async def get_api_key(api_key: str = Security(api_key_header)) -> str:

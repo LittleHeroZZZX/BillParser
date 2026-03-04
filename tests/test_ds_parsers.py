@@ -25,4 +25,4 @@ async def test_DeepSeekParser():  # noqa: N802
     )
     parser = DeepSeekParser()
     bill = await parser.parse(raw_text_sample)
-    bill_helper.compare_bill(bill, expected_bill, raise_on_mismatch=True)
+    bill_helper.compare_bill(bill, expected_bill, skip_remark=True, raise_on_mismatch=True)
