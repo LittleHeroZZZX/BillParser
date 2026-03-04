@@ -2,7 +2,7 @@ from pathlib import Path
 
 from dynaconf import Dynaconf
 
-ROOT_DIR = Path(__file__).parent.parent.parent
+ROOT_DIR = Path(__file__).parent.parent
 CONFIG_ROOT = ROOT_DIR / "config"
 all_yaml_files = CONFIG_ROOT.glob("**/*.yaml")
 to_load_yaml_files = [str(file) for file in all_yaml_files if not file.name.endswith(".example.yaml")]

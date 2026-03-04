@@ -1,0 +1,8 @@
+services:
+  billparser:
+    build: .
+    ports:
+      - "${PORT:-8878}:8878"
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped

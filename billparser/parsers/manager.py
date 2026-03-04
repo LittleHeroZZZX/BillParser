@@ -24,7 +24,7 @@ class ParserManager:
 
     def _discover_parser_classes(self) -> dict[str, type[BaseParser]]:
         """
-        Walks the 'src.billparser.parsers' package and finds all
+        Walks the billparser.parsers' package and finds all
         concrete subclasses of BaseParser.
         """
         classes: dict[str, type[BaseParser]] = {}

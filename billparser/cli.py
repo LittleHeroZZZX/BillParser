@@ -19,7 +19,7 @@ def serve(
     启动 Web API 服务
     """
     typer.echo(f"Starting server on {host}:{port}")
-    uvicorn.run("src.billparser.server:app", host=host, port=port, reload=reload)
+    uvicorn.run("billparser.server:app", host=host, port=port, reload=reload)
 
 
 @app.command()
@@ -31,7 +31,7 @@ def parse_file(
     解析单个文件 (支持本地图片测试)
     """
     typer.echo(f"Processing file: {filepath}")
-    from src.billparser.pipeline import pipeline_manager
+    from billparser.pipeline import pipeline_manager
 
     pipeline_instance = pipeline_manager.get_pipeline(pipeline)
     assert pipeline_instance is not None, f"Pipeline '{pipeline}' not found"
