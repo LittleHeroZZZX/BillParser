@@ -39,7 +39,7 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
         }
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         async with httpx.AsyncClient() as client:
-            response = await client.post(url, data=params, headers=headers, timeout=1)
+            response = await client.post(url, data=params, headers=headers, timeout=10)
             response.raise_for_status()
         data = response.json()
         self.access_token = data["access_token"]
