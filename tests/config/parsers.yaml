@@ -10,4 +10,4 @@ parsers:
     secret_key:
   groq:
     api_key:   # injected via BILLPARSER_PARSERS__GROQ__API_KEY
-    model: qwen-qwq-32b
+    model: qwen/qwen3-32b

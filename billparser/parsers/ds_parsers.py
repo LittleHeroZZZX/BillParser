@@ -1,4 +1,5 @@
 import json
+import re
 from abc import abstractmethod
 from logging import getLogger
 
@@ -30,11 +31,19 @@ class OpenAICompatibleLLMParser(BaseParser[RawText, Bill]):
             prompt = PromptHelper.generate_text_to_bill_prompt(input_data)
             response = await self.client.chat.completions.create(
                 model=self.model,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You must always end your response with a single valid JSON object and nothing else after it.",  # noqa: E501
+                    },
+                    {"role": "user", "content": prompt},
+                ],
             )
             response_text = response.choices[0].message.content
             if response_text is None:
                 raise ValueError(f"Received empty response from {self.name}")
+            # Strip <think>...</think> blocks produced by reasoning models (e.g. Qwen3)
+            response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
             raw_data = json.loads(response_text)
             transaction_type_str = raw_data.get("transaction_type")
             if transaction_type_str != "信用卡还款":
@@ -54,6 +63,7 @@ class OpenAICompatibleLLMParser(BaseParser[RawText, Bill]):
                 raw_data["transaction_type"] = TransactionType(transaction_type_str)
                 raw_data["catename"] = category_helper.get_category(raw_data["transaction_type"], catename_str)
                 raw_data["accountname"] = asset_helper.get_asset(accountname_str)
+                raw_data["accountname2"] = None
             else:
                 raw_data["transaction_type"] = TransactionType.CREDIT_CARD_REPAYMENT
                 raw_data["accountname"] = asset_helper.get_asset(raw_data["accountname"])

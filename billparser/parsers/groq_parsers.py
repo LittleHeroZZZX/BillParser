@@ -19,13 +19,15 @@ class GroqParser(OpenAICompatibleLLMParser):
             f"Parser settings for {self.name} not found"
         )
         parser_cfg = settings["parsers"][self.name]
-        assert "api_key" in parser_cfg, f"api_key for {self.name} not found in settings"
-        assert "model" in parser_cfg, f"model for {self.name} not found in settings"
+        api_key = parser_cfg.get("api_key") or parser_cfg.get("API_KEY")
+        model = parser_cfg.get("model") or parser_cfg.get("MODEL")
+        assert api_key, f"api_key for {self.name} not found in settings"
+        assert model, f"model for {self.name} not found in settings"
         self._client = AsyncOpenAI(
-            api_key=parser_cfg["api_key"],
+            api_key=api_key,
             base_url=GROQ_BASE_URL,
         )
-        self._model = parser_cfg["model"]
+        self._model = model
 
     @property
     def client(self) -> AsyncOpenAI:

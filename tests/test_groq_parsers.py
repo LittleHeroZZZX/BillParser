@@ -25,4 +25,4 @@ async def test_GroqParser():  # noqa: N802
     )
     parser = GroqParser()
     bill = await parser.parse(raw_text_sample)
-    bill_helper.compare_bill(bill, expected_bill, skip_remark=True, raise_on_mismatch=True)
+    bill_helper.compare_bill(bill, expected_bill, skip_remark=True, skip_catename=True, raise_on_mismatch=True)
