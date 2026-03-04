@@ -11,13 +11,17 @@ app = typer.Typer(help="BillParser 命令行工具")
 
 @app.command()
 def serve(
-    host: str = typer.Option("0.0.0.0", help="Host to bind"),
-    port: int = typer.Option(8000, help="Port to bind"),
+    host: str = typer.Option(None, help="Host to bind (default: read from settings.yaml)"),
+    port: int = typer.Option(None, help="Port to bind (default: read from settings.yaml)"),
     reload: bool = typer.Option(False, help="Enable auto-reload"),
 ):
     """
     启动 Web API 服务
     """
+    from .config import settings
+
+    host = host or settings.get("server.host", "0.0.0.0")
+    port = port or settings.get("server.port", 8878)
     typer.echo(f"Starting server on {host}:{port}")
     uvicorn.run("billparser.server:app", host=host, port=port, reload=reload)
 
