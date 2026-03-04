@@ -8,3 +8,6 @@ parsers:
   qianfan_ocr: # https://cloud.baidu.com/doc/OCR/s/zk3h7xz52
     api_key:
     secret_key:
+  groq: # https://console.groq.com/
+    api_key: your_groq_api_key_here
+    model: qwen-qwq-32b # e.g. llama-3.3-70b-versatile, qwen-qwq-32b
