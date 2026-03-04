@@ -8,3 +8,6 @@ parsers:
   qianfan_ocr:
     api_key:
     secret_key:
+  groq:
+    api_key:   # injected via BILLPARSER_PARSERS__GROQ__API_KEY
+    model: qwen-qwq-32b
