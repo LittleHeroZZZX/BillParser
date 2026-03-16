@@ -44,6 +44,8 @@ class OpenAICompatibleLLMParser(BaseParser[RawText, Bill]):
                 raise ValueError(f"Received empty response from {self.name}")
             # Strip <think>...</think> blocks produced by reasoning models (e.g. Qwen3)
             response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
+            if not response_text:
+                raise ValueError(f"Response from {self.name} is empty after stripping think tags")
             raw_data = json.loads(response_text)
             transaction_type_str = raw_data.get("transaction_type")
             if transaction_type_str != "信用卡还款":
@@ -71,8 +73,8 @@ class OpenAICompatibleLLMParser(BaseParser[RawText, Bill]):
                 raw_data["catename"] = None
             return Bill.model_validate(raw_data)
         except Exception as e:
-            logger.error(f"Error during {self.name} parsing: {e}")
-            return bill_helper.get_default_bill()
+            logger.error(f"Error during {self.name} parsing: {e}", exc_info=True)
+            raise
 
 
 class DeepSeekParser(OpenAICompatibleLLMParser):

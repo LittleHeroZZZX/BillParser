@@ -150,6 +150,7 @@ class AssetHelper:
                 match_rules=match_rules,
             )
             self.assets[account_name] = asset
+        self._initialized = True
 
     def get_asset(self, account_name: str) -> AssetItem:
         """

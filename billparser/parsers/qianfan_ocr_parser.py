@@ -75,10 +75,10 @@ class QianfanOcrParser(BaseParser[RawImage, RawText]):
     def _post_process_ocr_response(self, response_json: dict) -> RawText:
         datatext_list = []
         for item in response_json.get("words_result", []):
-            datatext_list.append(item["words"])
+            datatext_list.append(item.get("words", ""))
         paragraph_str_list = []
         for item in response_json.get("paragraphs_result", []):
-            idx: list[int] = item["words_result_idx"]
-            paragraph_str_list.append("".join([datatext_list[i] for i in idx]))
+            idx: list[int] = item.get("words_result_idx", [])
+            paragraph_str_list.append("".join([datatext_list[i] for i in idx if i < len(datatext_list)]))
         detected_text = "\n".join(paragraph_str_list)
         return RawText(detected_text)

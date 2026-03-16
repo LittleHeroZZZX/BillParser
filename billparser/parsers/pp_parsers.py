@@ -53,6 +53,12 @@ class PPOCRV5Parser(PpParserBase):
     name = "PP_OCRv5"
 
     def _post_process_ocr_response(self, response_json: dict) -> RawText:
-        datatext_list = response_json["result"]["ocrResults"][0]["prunedResult"]["rec_texts"]
+        try:
+            ocr_results = response_json["result"]["ocrResults"]
+            if not ocr_results:
+                raise ValueError("ocrResults is empty in PP-OCR response")
+            datatext_list = ocr_results[0]["prunedResult"]["rec_texts"]
+        except (KeyError, IndexError) as e:
+            raise ValueError(f"Unexpected PP-OCR response structure: {e}") from e
         detected_text = "\n".join(datatext_list)
         return RawText(detected_text)
